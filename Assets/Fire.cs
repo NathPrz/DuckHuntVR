@@ -13,6 +13,8 @@ public class Fire : MonoBehaviour
     {
         GameObject spawnBullet= Instantiate(bullet, spawnPoint.position, spawnPoint.rotation);
         spawnBullet.GetComponent<Rigidbody>().velocity = spawnPoint.forward * bulletSpeed;
+        // Adjust the rotation of the bullet by -90 degrees
+        spawnBullet.transform.Rotate(-90, 0, 0);
         Destroy(spawnBullet, 5f);
     }
 
