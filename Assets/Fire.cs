@@ -11,8 +11,15 @@ public class Fire : MonoBehaviour
     [SerializeField] private float bulletSpeed = 10f;
     public void FireBullet()
     {
-        GameObject spawnBullet= Instantiate(bullet, spawnPoint.position, spawnPoint.rotation);
+        // Instantiate the bullet at the spawn point position and rotation
+        GameObject spawnBullet = Instantiate(bullet, spawnPoint.position, spawnPoint.rotation);
+
+        // Adjust the rotation of the bullet by -90 degrees
+        spawnBullet.transform.Rotate(-90, 0, 0);
+
+        // Set the velocity of the bullet
         spawnBullet.GetComponent<Rigidbody>().velocity = spawnPoint.forward * bulletSpeed;
+
         Destroy(spawnBullet, 5f);
     }
 
