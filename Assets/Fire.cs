@@ -9,6 +9,9 @@ public class Fire : MonoBehaviour
     [SerializeField] private Transform spawnPoint;
 
     [SerializeField] private float bulletSpeed = 10f;
+    [SerializeField] private AudioSource audioSource;
+
+
     public void FireBullet()
     {
         // Instantiate the bullet at the spawn point position and rotation
@@ -19,7 +22,9 @@ public class Fire : MonoBehaviour
 
         // Set the velocity of the bullet
         spawnBullet.GetComponent<Rigidbody>().velocity = spawnPoint.forward * bulletSpeed;
-
+        // Adjust the rotation of the bullet by -90 degrees
+        spawnBullet.transform.Rotate(-90, 0, 0);
+        audioSource.Play();
         Destroy(spawnBullet, 5f);
     }
 
