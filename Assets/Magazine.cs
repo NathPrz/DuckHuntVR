@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Magazine : MonoBehaviour
 {
-    public int numberOfBullet = 8;
+    public int numberOfBullet = 6;
     // Start is called before the first frame update
     void Start()
     {

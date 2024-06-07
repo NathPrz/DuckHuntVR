@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 [AddComponentMenu("Nokobot/Modern Guns/Simple Shoot")]
 public class SimpleShoot : MonoBehaviour
@@ -19,28 +20,67 @@ public class SimpleShoot : MonoBehaviour
     [Tooltip("Specify time to destory the casing object")] [SerializeField] private float destroyTimer = 2f;
     [Tooltip("Bullet Speed")] [SerializeField] private float shotPower = 500f;
     [Tooltip("Casing Ejection Speed")] [SerializeField] private float ejectPower = 150f;
+    [SerializeField]
     public AudioClip fireSound;
+    [SerializeField]
     public AudioSource source;
+    [SerializeField]
+    public AudioClip reload;
+    [SerializeField]
+    public AudioClip noAmmo;
 
+
+    public Magazine magazine;
+    public XRSocketInteractor socketInteractor;
 
     void Start()
     {
-        source = GetComponent<AudioSource>();
         
         if (barrelLocation == null)
             barrelLocation = transform;
 
         if (gunAnimator == null)
             gunAnimator = GetComponentInChildren<Animator>();
+
+        socketInteractor.selectEntered.AddListener(AddMagazine);
+        socketInteractor.selectExited.AddListener(RemoveMagazine);
+
+    }
+
+    public void AddMagazine(SelectEnterEventArgs args)
+    {
+        // Accessing the GameObject from IXRSelectInteractable to use GetComponent
+        magazine = args.interactableObject.transform.GetComponent<Magazine>();
+        if (magazine != null)
+        {
+            source.PlayOneShot(reload);
+        }
+        else
+        {
+            Debug.LogWarning("Magazine component not found on the interactable object.");
+        }
+    }
+
+    public void RemoveMagazine(SelectExitEventArgs args)
+    {
+        magazine = null;
     }
 
     public void PullTrigger()
     {
         //If you want a different input, change it here
         //Calls animation on the gun that has the relevant animation events that will fire
-        fireSound = source.clip;
-        gunAnimator.SetTrigger("Fire");
-        source.PlayOneShot(fireSound);
+        //gunAnimator.SetTrigger("Fire");
+
+        if(magazine && magazine.numberOfBullet > 0)
+        {
+            gunAnimator.SetTrigger("Fire");
+        }
+        else
+        {
+            source.PlayOneShot(noAmmo);
+        }
+        
 
     }
 
@@ -48,7 +88,8 @@ public class SimpleShoot : MonoBehaviour
     //This function creates the bullet behavior
     void Shoot()
     {
-        
+        magazine.numberOfBullet--;
+        source.PlayOneShot(fireSound);
         if (muzzleFlashPrefab)
         {
             //Create the muzzle flash
