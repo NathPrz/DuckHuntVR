@@ -455,6 +455,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ShowMenu",
+                    "type": "Button",
+                    "id": "38e4d989-10f3-411c-8fb5-2e27f64e597b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -565,6 +574,17 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Secondary Button",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b34c18c2-16d3-43be-b18b-4bb4790011c5",
+                    "path": "<XRController>{LeftHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShowMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
