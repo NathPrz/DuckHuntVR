@@ -29,9 +29,13 @@ public class SimpleShoot : MonoBehaviour
     [SerializeField]
     public AudioClip noAmmo;
 
-
+    [SerializeField]
     public Magazine magazine;
+    [SerializeField]
     public XRSocketInteractor socketInteractor;
+    [SerializeField]
+    public XRGrabInteractable grabInteractable;
+    [SerializeField] private XRBaseController activeController;
 
     void Start()
     {
@@ -44,6 +48,7 @@ public class SimpleShoot : MonoBehaviour
 
         socketInteractor.selectEntered.AddListener(AddMagazine);
         socketInteractor.selectExited.AddListener(RemoveMagazine);
+        grabInteractable.activated.AddListener(HapticalTrigger);
 
     }
 
@@ -66,6 +71,13 @@ public class SimpleShoot : MonoBehaviour
         magazine = null;
     }
 
+    public void HapticalTrigger(ActivateEventArgs args)
+    {
+        // Storing the controller reference
+        activeController = args.interactorObject.transform.GetComponentInParent<XRBaseController>();
+    }
+
+
     public void PullTrigger()
     {
         //If you want a different input, change it here
@@ -75,6 +87,16 @@ public class SimpleShoot : MonoBehaviour
         if(magazine && magazine.numberOfBullet > 0)
         {
             gunAnimator.SetTrigger("Fire");
+            // Send haptic feedback if the controller is available
+            if (activeController != null)
+            {
+                activeController.SendHapticImpulse(0.5f, 0.5f);
+                Debug.Log("Haptic impulse sent on shooting.");
+            }
+            else
+            {
+                Debug.Log("No controller available for haptic feedback.");
+            }
         }
         else
         {
