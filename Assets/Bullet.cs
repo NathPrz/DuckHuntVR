@@ -11,18 +11,18 @@ public class Bullet : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        // Destroy the bullet
+        // Output to the console which GameObject the bullet has collided with
         Debug.Log("Collided with: " + collision.gameObject.name);
-        if (collision.gameObject.CompareTag("Pistol"))
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Collided with: " + other.gameObject.name);
+        if (other.CompareTag("Animal"))
         {
-          
-        }
-        else
-        {
-            Destroy(gameObject);
+            Destroy(other.gameObject);  // Destroy the animal
+            Destroy(gameObject);        // Destroy the bullet
         }
     }
-
     // Update is called once per frame
     void Update()
         {

@@ -8,10 +8,12 @@ public class TargetAnimals : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
+       // Debug.Log(other.gameObject.name);
         if (other.gameObject.CompareTag("Bullet"))
         {
             Debug.Log("collision on duck works");
             this.gameObject.SetActive(false);
+            Destroy(this.gameObject);
         }
 
     }
