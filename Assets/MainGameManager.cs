@@ -7,8 +7,7 @@ public class MainGameManager : MonoBehaviour
 {
     public TextMeshProUGUI remainingAnimalsText;  // Use TextMeshProUGUI here
 
-    private int shotsFired = 0;
-    private int remainingAnimals;
+    private int remainingAnimals = 0;
 
     void Start()
     {
@@ -18,31 +17,24 @@ public class MainGameManager : MonoBehaviour
             return;
         }
 
-        remainingAnimals = GameObject.FindGameObjectsWithTag("Animal").Length;
         UpdateUI();
     }
 
     void UpdateUI()
     {
-        remainingAnimals = GameObject.FindGameObjectsWithTag("Animal").Length;
         if (remainingAnimalsText != null)
         {
-            remainingAnimalsText.text = "Animals Left: " + remainingAnimals;
+            remainingAnimalsText.text = "" + remainingAnimals;
         }
     }
 
-    public void OnAnimalShot()
-    {
-        shotsFired++;
-        UpdateUI();
-    }
 
     public void OnAnimalDestroyed()
     {
-        remainingAnimals--;
+        remainingAnimals++;
         UpdateUI();
 
-        if (remainingAnimals <= 0)
+        if (remainingAnimals >= 17)
         {
             GameOver();
         }

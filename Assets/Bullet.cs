@@ -22,6 +22,7 @@ public class Bullet : MonoBehaviour
         {
             Destroy(other.gameObject);  // Destroy the animal
             Destroy(gameObject);        // Destroy the bullet
+            FindObjectOfType<MainGameManager>().OnAnimalDestroyed();
         }
     }
     // Update is called once per frame
